@@ -3,23 +3,11 @@
 
 
 
-//--------
-//void ofxTouchOscWidget::setup() {
-//}
-
-//--------
-//void ofxTouchOscPage::setup() {
-    
-    
-    // 315, 430
-    
-//}
-
-
 
 //--------
 void ofxTouchOsc::setup() {
 
+    /*
     cout << "======" << endl;
     const std::string s = "base64meHiWorld" ;
     
@@ -29,8 +17,6 @@ void ofxTouchOsc::setup() {
     std::cout << "encoded: " << encoded << std::endl;
     std::cout << "decoded: " << decoded << std::endl;
     cout << "======" << endl;
-    
-    
-    // 315, 430
+    */
     
 }
