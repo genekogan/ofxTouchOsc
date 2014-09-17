@@ -1,4 +1,3 @@
 # ofxTouchOsc
 
-starting work on an addon which can generate touchOsc layouts.
-doesn't work yet -- more coming.
+This addon creates [TouchOSC](http://hexler.net/software/touchosc) templates. It lets you specify all the widgets you want and their associated properties, e.g. position, color, OSC address, etc. The function `save(path)` automatically generates the .touchosc file and places it in your app's data folder. 
