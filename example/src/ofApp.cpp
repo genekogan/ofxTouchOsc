@@ -3,20 +3,64 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     
-    ofxTouchOscPage *newPage = touchOsc.addPage("mypa32");
-    newPage->addFader("fad", 0, 20, 50, 50);
-    newPage->addRotary("rot", 0, 80, 50, 50);
-    newPage->addLed("led", 0, 130, 50, 50);
-    newPage->addButton("but", 0, 180, 50, 50);
-    newPage->addToggle("tog", 0, 230, 50, 50);
-    newPage->addMultiFader("mp", 100, 30, 150, 150);
-    newPage->addMultiXy("mt", 100, 230, 150, 150);
-
+    // set screen resolution
+    touchOsc.setScale(320, 480);
     
+    ofxTouchOscPage *newPage = touchOsc.addPage("myPage");
+    
+    // set the color for each widget blue
+    newPage->setDefaultWidgetColor(BLUE);
+
+    ofxTouchOscFader *fader = newPage->addFader("myFader", 0.01, 0.05, 0.9, 0.1);
+    fader->setCentered(false);
+    fader->setInverted(false);
+    fader->setResponse(false);
+    
+    // set individual widget colors
+    fader->setColor(YELLOW);
+
+    ofxTouchOscRotary *rotary = newPage->addRotary("myRotary", 0.01, 0.18, 0.15, 0.1);
+    rotary->setCentered(false);
+    rotary->setInverted(false);
+    rotary->setResponse(false);
+    rotary->setNoRollover(true);
+    
+    ofxTouchOscLed *led = newPage->addLed("myLed", 0.2, 0.18, 0.15, 0.1);
+
+    ofxTouchOscButton *button = newPage->addButton("myButton", 0.4, 0.18, 0.15, 0.1);
+    button->setLocalOff(false);
+    button->setVelocity(false);
+    
+    ofxTouchOscToggle *toggle = newPage->addToggle("myToggle", 0.6, 0.18, 0.15, 0.1);
+    toggle->setLocalOff(false);
+    
+    ofxTouchOscMultiFader *multifader = newPage->addMultiFader("myMultiFader", 0.01, 0.3, 0.3, 0.2);
+    multifader->setCentered(false);
+    multifader->setInverted(false);
+    multifader->setNumber(5);
+    
+    ofxTouchOscMultiXy *multixy = newPage->addMultiXy("myMultiXy", 0.5, 0.3, 0.3, 0.2);
+    multixy->setInvertedX(false);
+    multixy->setInvertedY(false);
+    
+    ofxTouchOscMultiPush *multipush = newPage->addMultiPush("myMultiPush", 0.01, 0.63, 0.3, 0.2);
+    multipush->setLocalOff(false);
+    multipush->setNumberX(5);
+    multipush->setNumberY(4);
+    
+    ofxTouchOscMultiToggle *multitoggle = newPage->addMultiToggle("myMultiToggle", 0.5, 0.63, 0.3, 0.2);
+    multitoggle->setLocalOff(false);
+    multitoggle->setExclusive(false);
+    multitoggle->setNumberX(5);
+    multitoggle->setNumberY(4);
+        
+    // save to file (appears in data folder)
+    touchOsc.save("myTouchOscLayout");
+    
+    // or grab the raw xml
     string xml = touchOsc.getXml();
     cout << xml << endl;
-    
-    touchOsc.save("another");
+
 }
 
 //--------------------------------------------------------------
