@@ -2,14 +2,21 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    touchOsc.setup();
     
-    ofxTouchOscPage *newPage = touchOsc.addPage("mypage1");
-    newPage->addFader("thisFade", 0, 20, 319, 420, 4.0, 99.3);
+    ofxTouchOscPage *newPage = touchOsc.addPage("mypa32");
+    newPage->addFader("fad", 0, 20, 50, 50);
+    newPage->addRotary("rot", 0, 80, 50, 50);
+    newPage->addLed("led", 0, 130, 50, 50);
+    newPage->addButton("but", 0, 180, 50, 50);
+    newPage->addToggle("tog", 0, 230, 50, 50);
+    newPage->addMultiFader("mp", 100, 30, 150, 150);
+    newPage->addMultiXy("mt", 100, 230, 150, 150);
+
     
     string xml = touchOsc.getXml();
+    cout << xml << endl;
     
-    touchOsc.save("hiLayout");
+    touchOsc.save("another");
 }
 
 //--------------------------------------------------------------
