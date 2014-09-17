@@ -2,6 +2,21 @@
 
 
 //---------
+ofxTouchOscLabel* ofxTouchOscPage::addLabel(string name, float x, float y, float w, float h) {
+    ofxTouchOscLabel *widget = new ofxTouchOscLabel(name, x, y, w, h, defaultColor);
+    widgets.push_back(widget);
+    return widget;
+}
+ofxTouchOscTime* ofxTouchOscPage::addTime(string name, float x, float y, float w, float h) {
+    ofxTouchOscTime *widget = new ofxTouchOscTime(name, x, y, w, h, defaultColor);
+    widgets.push_back(widget);
+    return widget;
+}
+ofxTouchOscBattery* ofxTouchOscPage::addBattery(string name, float x, float y, float w, float h) {
+    ofxTouchOscBattery *widget = new ofxTouchOscBattery(name, x, y, w, h, defaultColor);
+    widgets.push_back(widget);
+    return widget;
+}
 ofxTouchOscFader* ofxTouchOscPage::addFader(string name, float x, float y, float w, float h) {
     ofxTouchOscFader *widget = new ofxTouchOscFader(name, x, y, w, h, defaultColor);
     widgets.push_back(widget);
@@ -27,6 +42,16 @@ ofxTouchOscToggle* ofxTouchOscPage::addToggle(string name, float x, float y, flo
     widgets.push_back(widget);
     return widget;
 }
+ofxTouchOscEncoder* ofxTouchOscPage::addEncoder(string name, float x, float y, float w, float h) {
+    ofxTouchOscEncoder *widget = new ofxTouchOscEncoder(name, x, y, w, h, defaultColor);
+    widgets.push_back(widget);
+    return widget;
+}
+ofxTouchOscXy* ofxTouchOscPage::addXy(string name, float x, float y, float w, float h) {
+    ofxTouchOscXy *widget = new ofxTouchOscXy(name, x, y, w, h, defaultColor);
+    widgets.push_back(widget);
+    return widget;
+}
 ofxTouchOscMultiPush* ofxTouchOscPage::addMultiPush(string name, float x, float y, float w, float h) {
     ofxTouchOscMultiPush *widget = new ofxTouchOscMultiPush(name, x, y, w, h, defaultColor);
     widgets.push_back(widget);
@@ -49,8 +74,9 @@ ofxTouchOscMultiXy* ofxTouchOscPage::addMultiXy(string name, float x, float y, f
 }
 
 //---------
-ofxTouchOscPage::ofxTouchOscPage(string name) {
+ofxTouchOscPage::ofxTouchOscPage(string name, TouchOscColor color) {
     this->name = name;
+    this->defaultColor = color;
 }
 
 //---------
@@ -72,15 +98,20 @@ string ofxTouchOscPage::getXml() {
     xml += "<tabpage name=\""+b64name+"\" scalef=\"0.0\" scalet=\"1.0\" >\n";
     for (int i=0; i<widgets.size(); i++) {
         widgets[i]->setScale(scaleX, scaleY);
-        xml += widgets[i]->get();
+        xml += widgets[i]->getXmlInner();
     }
     xml += "</tabpage>\n";
     return xml;
 }
 
 //---------
+ofxTouchOsc::ofxTouchOsc() {
+    defaultColor = RED;
+}
+
+//---------
 ofxTouchOscPage* ofxTouchOsc::addPage(string name) {
-    ofxTouchOscPage *newPage = new ofxTouchOscPage(name);
+    ofxTouchOscPage *newPage = new ofxTouchOscPage(name, defaultColor);
     pages.push_back(newPage);
     return newPage;
 }
@@ -99,6 +130,11 @@ string ofxTouchOsc::getXml() {
 }
 
 //---------
+void ofxTouchOsc::setDefaultColor(TouchOscColor color) {
+    this->defaultColor = color;
+}
+
+//---------
 void ofxTouchOsc::setScale(float scaleX, float scaleY) {
     this->scaleX = scaleX;
     this->scaleY = scaleY;
@@ -110,9 +146,9 @@ void ofxTouchOsc::save(string name) {
     file << getXml();
     file.close();
     string cmd;
-    cmd += "cd "+ofToString(ofToDataPath("")) + ";";
-    cmd += "zip -r "+name+".touchosc index.xml;";
-    cmd += "rm index.xml;";
-    cmd += "open "+name+".touchosc;";
+    cmd += "cd "+ofToString(ofToDataPath("")) + "; ";
+    cmd += "zip -r "+name+".touchosc index.xml; ";
+    cmd += "rm index.xml; ";
+    cmd += "open "+name+".touchosc; ";
     ofSystem(cmd);
 }
