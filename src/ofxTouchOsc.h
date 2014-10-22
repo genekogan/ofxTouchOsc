@@ -55,11 +55,12 @@ public:
     }
     virtual void getXml() {};
 
-    string type;
     string xml;
+
+    string type;
     string name;
-    string color;
     string oscAddress;
+    string color;
     float x, y, w, h;
     float scaleX, scaleY;
     bool oscManual;
@@ -149,6 +150,7 @@ public:
             xml += "osc_cs=\""+oscAddressb64+"\" ";
         }
     }
+    virtual void setRange(float min, float max) { this->min = min; this->max = max; }
     virtual void setMin(float min) { this->min = min; }
     virtual void setMax(float max) { this->max = max; }
     
@@ -335,7 +337,8 @@ public:
 
 class ofxTouchOscPage {
 public:
-    ofxTouchOscPage(string name, TouchOscColor color);
+    ~ofxTouchOscPage();
+    ofxTouchOscPage(string name, TouchOscColor color=YELLOW);
     void setScale(float scaleX, float scaleY);
     void setDefaultWidgetColor(TouchOscColor color);
     string getXml();
@@ -366,7 +369,9 @@ private:
 class ofxTouchOsc {
 public:
     ofxTouchOsc();
+    ~ofxTouchOsc();
     ofxTouchOscPage* addPage(string name);
+    void addPage(ofxTouchOscPage* newPage);
     void setDefaultColor(TouchOscColor color);
     void setScale(float scaleX, float scaleY);
     void save(string name);
@@ -376,5 +381,6 @@ private:
     vector<ofxTouchOscPage *> pages;
     float scaleX, scaleY;
     TouchOscColor defaultColor;
+    bool customResolution;
 };
 

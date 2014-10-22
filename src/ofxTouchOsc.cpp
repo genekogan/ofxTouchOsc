@@ -107,6 +107,7 @@ string ofxTouchOscPage::getXml() {
 //---------
 ofxTouchOsc::ofxTouchOsc() {
     defaultColor = RED;
+    customResolution = false;
 }
 
 //---------
@@ -117,10 +118,18 @@ ofxTouchOscPage* ofxTouchOsc::addPage(string name) {
 }
 
 //---------
+void ofxTouchOsc::addPage(ofxTouchOscPage* newPage) {
+    pages.push_back(newPage);
+}
+
+//---------
 string ofxTouchOsc::getXml() {
     string xml;
     xml += "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    xml += "<layout version=\"13\" mode=\"0\" orientation=\"horizontal\">";
+    if (customResolution)
+        xml += "<layout version=\"13\" mode=\"3\" w=\""+ofToString((int)scaleX)+"\" h=\""+ofToString((int)scaleY)+"\" orientation=\"horizontal\">";
+    else
+        xml += "<layout version=\"13\" mode=\"0\" orientation=\"horizontal\">";
     for (int i=0; i<pages.size(); i++) {
         pages[i]->setScale(scaleX, scaleY);
         xml += pages[i]->getXml();
@@ -138,6 +147,7 @@ void ofxTouchOsc::setDefaultColor(TouchOscColor color) {
 void ofxTouchOsc::setScale(float scaleX, float scaleY) {
     this->scaleX = scaleX;
     this->scaleY = scaleY;
+    customResolution = true;
 }
 
 //---------
@@ -151,4 +161,18 @@ void ofxTouchOsc::save(string name) {
     cmd += "rm index.xml; ";
     cmd += "open "+name+".touchosc; ";
     ofSystem(cmd);
+}
+
+//---------
+ofxTouchOscPage::~ofxTouchOscPage() {
+    for (int i=0; i<widgets.size(); i++) {
+        delete widgets[i];
+    }
+}
+
+//---------
+ofxTouchOsc::~ofxTouchOsc() {
+    for (int i=0; i<pages.size(); i++) {
+        delete pages[i];
+    }
 }
